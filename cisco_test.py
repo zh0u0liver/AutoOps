@@ -8,7 +8,7 @@
 
 
 import os
-import pandas as pd
+import pandas
 from getpass import getpass
 from netmiko import ConnectHandler
 
@@ -30,15 +30,13 @@ if __name__ == '__main__':
     # }
 
     # 打开excel文件
-    device_info = pd.read_excel('./device.xlsx', head=None)
+    data_frame = pandas.read_excel('device.xlsx', sheet_name='Sheet1')
+    device_info = data_frame.to_dict(orient='records')
     print(device_info)
-
-    with ConnectHandler(**device) as net_conn:
-        # print(net_conn.find_prompt())
-        net_conn.enable()
-        # print(net_conn.find_prompt())
-        output = net_conn.send_command('show ip interface brief', expect_string=r'#')
-        print(output)
-
-
-
+    for device in device_info:
+        with ConnectHandler(**device) as net_conn:
+            # print(net_conn.find_prompt())
+            net_conn.enable()
+            # print(net_conn.find_prompt())
+            output = net_conn.send_command('show ip interface brief', expect_string=r'#')
+            print(output)
