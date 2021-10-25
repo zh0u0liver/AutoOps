@@ -8,6 +8,7 @@
 
 
 import os
+import pandas as pd
 from getpass import getpass
 from netmiko import ConnectHandler
 
@@ -20,13 +21,18 @@ if __name__ == '__main__':
     #     username='zhouliang',
     #     password='zl001'
     # )
-    device = {
-        'device_type': 'cisco_ios',
-        'host': '192.168.1.126',
-        'username': 'cisco',
-        'password': 'cisco',
-        'secret': 'cisco'
-    }
+    # device = {
+    #     'device_type': 'cisco_ios',
+    #     'host': '192.168.1.105',
+    #     'username': 'cisco',
+    #     'password': 'cisco',
+    #     'secret': 'cisco'
+    # }
+
+    # 打开excel文件
+    device_info = pd.read_excel('./device.xlsx', head=None)
+    print(device_info)
+
     with ConnectHandler(**device) as net_conn:
         # print(net_conn.find_prompt())
         net_conn.enable()
