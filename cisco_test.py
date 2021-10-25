@@ -12,6 +12,14 @@ import pandas
 from getpass import getpass
 from netmiko import ConnectHandler
 
+def openFile(person, author):
+    """
+    :param person:
+    :param author:
+    :return:
+    """
+    pass
+
 if __name__ == '__main__':
     # password = os.getenv('NETMIKO_PASSWORD') if os.getenv("NETMIKO_PASSWORD") else getpass
 
@@ -36,7 +44,9 @@ if __name__ == '__main__':
     for device in device_info:
         with ConnectHandler(**device) as net_conn:
             # print(net_conn.find_prompt())
+            device_name = net_conn.find_prompt()
             net_conn.enable()
             # print(net_conn.find_prompt())
             output = net_conn.send_command('show ip interface brief', expect_string=r'#')
+            print(device_name)
             print(output)
